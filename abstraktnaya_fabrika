@@ -1,0 +1,101 @@
+using System;
+
+namespace AbstractFactory
+{
+    // Абстрактный класс - движение
+    abstract class Movement
+    {
+        public abstract void Move();
+    }
+
+    class FlyMovement : Movement
+    {
+        public override void Move()
+        {
+            Console.WriteLine("Лететь");
+        }
+    }
+    class RunMovement : Movement
+    {
+        public override void Move()
+        {
+            Console.WriteLine("Бежать");
+        }
+    }
+    class CrawlMovement : Movement
+    {
+        public override void Move()
+        {
+            Console.WriteLine("Ползти");
+        }
+    }
+
+    // Класс абстрактной фабрики
+    abstract class AnimalFactory
+    {
+        public abstract Movement CreateMovement();
+    }
+
+    // Птица, которая летает
+    class Bird : AnimalFactory
+    {
+        public override Movement CreateMovement()
+        {
+            return new FlyMovement();
+        }
+    }
+    // Млекопитающее, которое бегает
+    class Mammal : AnimalFactory
+    {
+        public override Movement CreateMovement()
+        {
+            return new RunMovement();
+        }
+    }
+    // Пресмыкающееся, которое ползает
+    class Reptile : AnimalFactory
+    {
+        public override Movement CreateMovement()
+        {
+            return new CrawlMovement();
+        }
+    }
+
+    class Animal
+    {
+        private Movement movement;
+        public Animal(AnimalFactory factory)
+        {
+            movement = factory.CreateMovement();
+        }
+        public void Run()
+        {
+            movement.Move();
+        }
+        public void Fly()
+        {
+            movement.Move();
+        }
+        public void Crawl()
+        {
+            movement.Move();
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Animal pigeon = new Animal(new Bird());
+            pigeon.Fly();
+
+            Animal lion = new Animal(new Mammal());
+            pigeon.Run();
+
+            Animal lizard = new Animal(new Reptile());
+            pigeon.Crawl();
+
+            Console.ReadLine();
+        }
+    }
+}
